@@ -1,57 +1,14 @@
 pipeline {
-   agent {
+	agent {
        label 'slave'
-   }
-   tools {
-     maven "maven"  
-   }
-   environment {
-       scannerHome = tool 'SonarQube Scanner'
-               //This can be nexus 3 or Nexus 2
-        NEXUS_VERSION= "nexus3"
-        //This can be http or https
-        NEXUS_PROTOCOL= "http"
-        //Where your Nexus is running
-        NEXUS_URL= "http://34.234.204.180:8081/"
-        // Repository Name where we will upload the artifacts
-        NEXUS_REPOSITORY= "exam_practice"
-        // Jenkins credentials id to authenticate to Nexus OSS
-        NEXUS_CREDENTIAL_ID= "nexus-creds"
-   }
-
-   stages {
-      stage('Git Checkout') {
-         steps {
-            git 'https://github.com/Chandandhani/loginapp.git'   
-         }
-      }
-    stage('Static code Analisyss'){
-      steps {
-           withSonarQubeEnv('SonarQube servers') {
-            /*sh "${scannerHome}/bin/sonar-scanner -Dsonar.sourceEncoding=UTF-8 -Dsonar.projectKey=testpipeline -Dsonar.projectName=testpipeline -Dsonar.projectVersion=1.0"*/
-            sh "mvn sonar:sonar"
-        }
-      }    
-        
-    }
-    stage ('Maven Goal'){
-      steps {
-         sh "mvn clean install package    " 
-      }    
-    }
-    stage ('Deploying Artifact'){
-      steps {
-        sh "mvn deploy "
-       }
-     
-     
-    }
-	stage("Ansible"){
-		steps {
-			sh 'ansible-playbook /home/remote/tomcat.yml -i /home/remote/hosts -b'
-       }
- 
-     }
-
-    }
+	}
+   
+	stages {
+		stage('Git Checkout') {
+			steps {
+				git 'https://github.com/Chandandhani/loginapp.git'   
+			}
+		}
+	}   
+	  
 }
