@@ -5,7 +5,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.login</groupId>
-	<artifactId>AccountLogin</artifactId>
+	<artifactId>AccountLogin${RELEASE_VERSION}</artifactId>
 	<packaging>war</packaging>
 	<version>4.0.0</version>
 	<name>SpringSecurity Custom Login Form XML</name>
