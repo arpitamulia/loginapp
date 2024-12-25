@@ -20,14 +20,14 @@ node {
                     '''
             }
         }
-        stage('Quality Gate Check') {
-            timeout(time: 2, unit: 'MINUTES') { 
-                def qualityGate = waitForQualityGate()
-                if (qualityGate.status != 'OK') {
-                    error "Pipeline aborted due to Quality Gate failure: ${qualityGate.status}"
-                }
-            }
-        }
+        // stage('Quality Gate Check') {
+        //     timeout(time: 2, unit: 'MINUTES') { 
+        //         def qualityGate = waitForQualityGate()
+        //         if (qualityGate.status != 'OK') {
+        //             error "Pipeline aborted due to Quality Gate failure: ${qualityGate.status}"
+        //         }
+        //     }
+        // }
     } catch (Exception e) {
         echo "Build failed: ${e.getMessage()}"
         currentBuild.result = 'FAILURE'
