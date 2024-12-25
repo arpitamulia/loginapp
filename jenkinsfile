@@ -11,12 +11,22 @@ node {
         }
         stage('SonarQube Analysis') {
             withSonarQubeEnv('SonarQube') { 
-                sh '''mvn sonar:sonar -Dsonar.projectKey=loginapp \
-                                    -Dsonar.host.url=http://172.16.16.100:9000 \
-                                    -Dsonar.login=$Login_Sonar_cred \
-                                    -Dsonar.qualitygate=Login_Quality_gate \
-                                    -Dsonar.profile=Login_Quality_Profile
-                '''
+                withCredentials([string(credentialsId: 'Login_Sonar_cred')]) {
+                    sh '''
+                        mvn sonar:sonar \
+                        -Dsonar.projectKey=loginapp \
+                        -Dsonar.host.url=http://172.16.16.100:9000 \
+                        -Dsonar.login=$SONAR_TOKEN
+                    '''
+                }
+            }
+        }
+        stage('Quality Gate Check') {
+            timeout(time: 5, unit: 'MINUTES') { 
+                def qualityGate = waitForQualityGate()
+                if (qualityGate.status != 'OK') {
+                    error "Pipeline aborted due to Quality Gate failure: ${qualityGate.status}"
+                }
             }
         }
     } catch (Exception e) {
