@@ -16,6 +16,7 @@ node {
                         -Dsonar.projectKey=loginapp \
                         -Dsonar.host.url=http://172.16.16.100:9000 \
                         -Dsonar.login=$SONAR_TOKEN 
+                        -Dsonar.branch.name=master
                     '''
             }
         }
