@@ -10,15 +10,13 @@ node {
             sh 'mvn clean install'
         }
         stage('SonarQube Analysis') {
-            withSonarQubeEnv('SonarQube') { 
-                withCredentials([string(credentialsId: 'Login_Sonar_cred')]) {
+            withSonarQubeEnv('SonarQube') {
                     sh '''
                         mvn sonar:sonar \
                         -Dsonar.projectKey=loginapp \
                         -Dsonar.host.url=http://172.16.16.100:9000 \
                         -Dsonar.login=$SONAR_TOKEN
                     '''
-                }
             }
         }
         stage('Quality Gate Check') {
