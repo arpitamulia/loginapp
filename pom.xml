@@ -8,7 +8,7 @@
     <artifactId>AccountLogin</artifactId>
     <packaging>war</packaging>
     <version>4.0.0</version>
-    <name>SpringSecurity Custom Login Form XML</name>
+    <name>SpringSecurity Custom Login Form XML and LoginAccount</name>
 
     <properties>
         <jdk.version>1.8</jdk.version> <!-- Use Java 8 -->
