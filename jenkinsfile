@@ -20,14 +20,20 @@ node {
                     '''
             }
         }
-        // stage('Quality Gate Check') {
-        //     timeout(time: 2, unit: 'MINUTES') { 
-        //         def qualityGate = waitForQualityGate()
-        //         if (qualityGate.status != 'OK') {
-        //             error "Pipeline aborted due to Quality Gate failure: ${qualityGate.status}"
-        //         }
-        //     }
-        // }
+        stage('Upload to Nexus') {
+            nexusArtifactUploader(
+                artifacts: [
+                    [artifactId: 'AccountLogin', classifier: '', file: "${WORKSPACE}/target/AccountLogin.war", type: 'war']
+                ],
+                credentialsId: 'fa9ac18f-ff2a-424b-8280-8286779b11ae',
+                groupId: 'com.login',
+                nexusUrl: 'http://172.16.16.102:8081',
+                nexusVersion: 'nexus3',
+                protocol: 'http',
+                repository: 'login_release',
+                version: '1.0.0' 
+            )
+        }
     } catch (Exception e) {
         echo "Build failed: ${e.getMessage()}"
         currentBuild.result = 'FAILURE'
