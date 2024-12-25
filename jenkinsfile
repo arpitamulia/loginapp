@@ -11,27 +11,30 @@ node {
         }
         stage('SonarQube Analysis') {
             withSonarQubeEnv('SonarQube') {
-                    sh '''
-                        mvn sonar:sonar \
-                        -Dsonar.projectKey=loginapp \
-                        -Dsonar.host.url=http://172.16.16.100:9000 \
-                        -Dsonar.login=$Login_Sonar_cred \
-                        -Dsonar.projectName="SpringSecurity Custom Login Form XML and LoginAccount"
-                    '''
+                sh '''
+                    mvn sonar:sonar \
+                    -Dsonar.projectKey=loginapp \
+                    -Dsonar.host.url=http://172.16.16.100:9000 \
+                    -Dsonar.login=$Login_Sonar_cred \
+                    -Dsonar.projectName="SpringSecurity Custom Login Form XML and LoginAccount"
+                '''
             }
         }
         stage('Upload to Nexus') {
             nexusArtifactUploader(
-                artifacts: [
-                    [artifactId: 'AccountLogin', classifier: '', file: "${WORKSPACE}/target/AccountLogin.war", type: 'war']
-                ],
+                artifacts: [[
+                    artifactId: 'AccountLogin',
+                    classifier: '',
+                    file: '/var/lib/jenkins/workspace/dev/Maven_Build_Upload/target/AccountLogin.war',
+                    type: 'war'
+                ]],
                 credentialsId: 'fa9ac18f-ff2a-424b-8280-8286779b11ae',
                 groupId: 'com.login',
                 nexusUrl: 'http://172.16.16.102:8081',
                 nexusVersion: 'nexus3',
                 protocol: 'http',
                 repository: 'login_release',
-                version: '4.0.0' 
+                version: '4.0.0'
             )
         }
     } catch (Exception e) {
