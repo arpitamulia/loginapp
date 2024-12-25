@@ -9,12 +9,18 @@ node {
         stage('Maven Build') {
             sh 'mvn clean install'
         }
+        stage('SonarQube Analysis') {
+            withSonarQubeEnv('SonarQube') { // 'SonarQube' is the name configured in Jenkins -> Manage Jenkins -> Configure System
+                sh 'mvn sonar:sonar -Dsonar.projectKey=loginapp \
+                                    -Dsonar.host.url=http://172.16.16.100:9000 \
+                                    -Dsonar.login=${Login_Sonar_cred}
+            }
+        }
     } catch (Exception e) {
         echo "Build failed: ${e.getMessage()}"
         currentBuild.result = 'FAILURE'
         throw e
-    }
-    finally{
-       cleanWs()
+    } finally {
+        cleanWs()
     }
 }
