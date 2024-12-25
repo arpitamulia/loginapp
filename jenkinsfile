@@ -13,7 +13,9 @@ node {
             withSonarQubeEnv('SonarQube') { 
                 sh '''mvn sonar:sonar -Dsonar.projectKey=loginapp \
                                     -Dsonar.host.url=http://172.16.16.100:9000 \
-                                    -Dsonar.login=$Login_Sonar_cred
+                                    -Dsonar.login=$Login_Sonar_cred \
+                                    -Dsonar.qualitygate=Login_Quality_gate \
+                                    -Dsonar.profile=Login_Quality_Profile
                 '''
             }
         }
