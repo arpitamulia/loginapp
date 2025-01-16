@@ -1,1 +1,9 @@
+node {
+    // Code executed on the Jenkins node
+    stage('Stage Name') {
+        steps {
+            echo 'Executing steps in this stage...'
+        }
+    }
+}
 
