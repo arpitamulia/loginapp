@@ -8,9 +8,7 @@ pipeline {
         REGISTRY_PASSWORD = 'admin'
     }
 
-    parameters {
-        choice(name: 'DOCKER_IMAGE', choices: getDockerImages(), description: 'Select a Docker image from registry')
-    }
+
 
     stages {
         stage('Checkout Code') {
@@ -32,8 +30,6 @@ pipeline {
         stage('Docker Build & Push') {
             steps {
                 script {
-                    def imageTag = "custom-node-python-jdk21:latest"
-
                     sh """
                         docker build -t ${imageTag} -f Docker/Dockerfile .
                         docker login ${REGISTRY_URL} -u ${REGISTRY_USER} -p ${REGISTRY_PASSWORD}
