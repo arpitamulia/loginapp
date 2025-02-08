@@ -1,0 +1,47 @@
+pipeline {
+    agent any
+
+    environment {
+        REGISTRY_URL = '172.16.16.102:9001'
+        REPOSITORY = 'docker-hosted'
+        REGISTRY_USER = 'admin'
+        REGISTRY_PASSWORD = 'admin'
+    }
+
+    parameters {
+        choice(name: 'DOCKER_IMAGE', choices: getDockerImages(), description: 'Select a Docker image from registry')
+    }
+
+    stages {
+        stage('Checkout Code') {
+            steps {
+                checkout scmGit(
+                    branches: [[name: '*/main']],
+                    extensions: [],
+                    userRemoteConfigs: [[url: 'https://github.com/arpitamulia/loginapp.git']]
+                )
+            }
+        }
+
+        stage('Build with Maven') {
+            steps {
+                sh 'mvn clean install package'
+            }
+        }
+
+        stage('Docker Build & Push') {
+            steps {
+                script {
+                    def imageTag = "custom-node-python-jdk21:latest"
+
+                    sh """
+                        docker build -t ${imageTag} -f Docker/Dockerfile .
+                        docker login ${REGISTRY_URL} -u ${REGISTRY_USER} -p ${REGISTRY_PASSWORD}
+                        docker tag ${imageTag} ${REGISTRY_URL}/${REPOSITORY}/${imageTag}
+                        docker push ${REGISTRY_URL}/${REPOSITORY}/${imageTag}
+                    """
+                }
+            }
+        }
+    }
+}
