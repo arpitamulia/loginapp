@@ -1,0 +1,43 @@
+pipeline {
+    agent any
+
+    environment {
+        REGISTRY_URL = '172.16.16.102:9001'
+        REPOSITORY = 'docker-hosted'
+        REGISTRY_USER = 'admin'
+        REGISTRY_PASSWORD = 'admin'
+    }
+
+    stages {
+        stage('Checkout Code') {
+            steps {
+                checkout scmGit(
+                    branches: [[name: '*/main']],
+                    extensions: [],
+                    userRemoteConfigs: [[url: 'https://github.com/arpitamulia/loginapp.git']]
+                )
+            }
+        }
+
+        stage('Build with Maven') {
+            steps {
+                sh 'mvn clean install package'
+            }
+        }
+
+        stage('Docker Build & Push') {
+            steps {
+                script {
+                    def imageTag = "custom-node-python-jdk21:latest"
+
+                    sh """
+                        docker build -t custom-node-python-jdk21:latest -f Docker/Dockerfile .
+                        docker login ${REGISTRY_URL} -u ${REGISTRY_USER} -p ${REGISTRY_PASSWORD}
+                        docker tag custom-node-python-jdk21:latest 172.16.16.102:9001/docker-hosted/custom-node-python-jdk21:${Node_Version}
+                        docker push 172.16.16.102:9001/docker-hosted/custom-node-python-jdk21:${Node_Version}
+                    """
+                }
+            }
+        }
+    }
+}
