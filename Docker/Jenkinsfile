@@ -32,7 +32,7 @@ pipeline {
                 script {
                     sh """
                         docker build -t custom-node-python-jdk21 -f Docker/Dockerfile .
-                        docker login 172.16.16.102:9001 -u admin -p admin 
+                        docker login 172.16.16.101:8550 -u admin -p admin 
                         docker tag  custom-node-python-jdk21:latest 172.16.16.101:8550/docker-hosted/custom-node-python-jdk21:${Node_Version}
                         docker push 172.16.16.101:8550/docker-hosted/custom-node-python-jdk21:${Node_Version}
                     """
