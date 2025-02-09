@@ -28,7 +28,7 @@ pipeline {
         }
         stage('Upload Arifact') {
             steps {
-                nexusArtifactUploader artifacts: [[artifactId: 'AccountLogin', classifier: '', file: '/var/lib/jenkins/workspace/MSP/DEV/Build-Stone-Henge/target/AccountLogin.war', type: 'war']], credentialsId: '77874c59-4637-44ca-835c-8557fe48402b', groupId: 'com.login', nexusUrl: '172.16.16.101:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'msp_release', version: '${RELEASE_VERSION}'
+                nexusArtifactUploader artifacts: [[artifactId: 'AccountLogin', classifier: '', file: '/var/lib/jenkins/workspace/MSP/DEV/Build-Stone-Henge/target/AccountLogin.war', type: 'war']], credentialsId: '77874c59-4637-44ca-835c-8557fe48402b', groupId: 'com.login', nexusUrl: '172.16.16.101:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'msp_release', version: '${Node_Version}'
             }
         }
     }
