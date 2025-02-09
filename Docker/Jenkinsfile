@@ -31,17 +31,5 @@ pipeline {
                 nexusArtifactUploader artifacts: [[artifactId: 'AccountLogin', classifier: '', file: '/var/lib/jenkins/workspace/MSP/DEV/Build-Stone-Henge/target/AccountLogin.war', type: 'war']], credentialsId: '77874c59-4637-44ca-835c-8557fe48402b', groupId: 'com.login', nexusUrl: '172.16.16.101:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'msp_release', version: '${RELEASE_VERSION}'
             }
         }
-        stage('Docker Build & Push') {
-            steps {
-                script {
-                    sh """
-                        docker build -t custom-node-python-jdk21 -f Docker/Dockerfile .
-                        docker login 172.16.16.101:8550 -u admin -p admin 
-                        docker tag  custom-node-python-jdk21:latest 172.16.16.101:8550/docker-hosted/custom-node-python-jdk21:${Node_Version}
-                        docker push 172.16.16.101:8550/docker-hosted/custom-node-python-jdk21:${Node_Version}
-                    """
-                }
-            }
-        }
     }
 }
