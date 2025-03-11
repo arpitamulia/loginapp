@@ -91,11 +91,11 @@
     <distributionManagement>
         <repository>
             <id>nexus-releases</id>
-            <url>http://172.16.16.102:8081/repository/login_release/</url>
+            <url>http://54.198.233.94:8081/repository/login_release/</url>
         </repository>
         <snapshotRepository>
             <id>nexus-snapshots</id>
-            <url>http://172.16.16.102:8081/repository/login_snapshots/</url>
+            <url>http://54.198.233.94:8081/repository/login_snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
 </project>
