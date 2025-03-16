@@ -93,9 +93,5 @@
             <id>nexus-releases</id>
             <url>http://192.168.56.13:8081/repository/DSP_repo/</url>
         </repository>
-        <snapshotRepository>
-            <id>nexus-snapshots</id>
-            <url>http://192.168.56.13:8081/repository/login_snapshots/</url>
-        </snapshotRepository>
     </distributionManagement>
 </project>
