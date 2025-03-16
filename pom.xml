@@ -8,7 +8,7 @@
     <groupId>com.login</groupId>
     <artifactId>AccountLogin</artifactId>
     <packaging>war</packaging>
-    <version>4.0.0-SNAPSHOT</version>
+    <version>4.0.0</version>
     <name>SpringSecurity Custom Login Form XML and LoginAccount</name>
 
     <properties>
