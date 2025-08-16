@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: myapp-container
-        image: 172.16.16.102:8085/docker_repo/myfirstimage:v1
+        image: 172.16.16.102:8085/docker_repo/myfirstimage:v7
         ports:
         - containerPort: 8080
 ---
