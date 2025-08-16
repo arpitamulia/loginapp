@@ -1,4 +1,4 @@
-FROM tomcat:8
+FROM tomcat:latest
 #Take the war file and copy to webapps of tomcat 
 USER root
 CMD microdnf install vim
